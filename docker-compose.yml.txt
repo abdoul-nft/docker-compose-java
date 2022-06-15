@@ -1,0 +1,29 @@
+version: '3'
+services:
+  data:
+    image: mysql:latest
+    platform: linux/amd64
+    volumes:
+      - mes_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_ALLOW_EMPTY_PASSWORD: wordpress
+      MYSQL_RANDOM_ROOT_PASSWORD: wordpress
+  app:
+    depends_on:
+      - data
+    image: wordpress:latest
+    ports:
+      - "9000:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: data:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+volumes:
+  mes_data: {}
